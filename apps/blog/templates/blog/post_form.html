@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ title }} - Blog{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Back Button -->
+                <div class="mb-4">
+                    <a href="{% url 'blog:post_list' %}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Blog
+                    </a>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">{{ title }}</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        {% crispy form %}
+                    </div>
+                </div>
+
+                <!-- Writing Tips -->
+                <div class="card shadow-sm mt-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-lightbulb"></i> Writing Tips</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Write a clear, engaging title that summarizes your post</li>
+                            <li>Use the excerpt field to create a compelling preview (max 300 characters)</li>
+                            <li>Break up content into short paragraphs for better readability</li>
+                            <li>Add relevant tags to help readers find your content</li>
+                            <li>Save as 'Draft' to preview before publishing</li>
+                            <li>Upload a featured image for better visual appeal (recommended size: 1200x630px)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

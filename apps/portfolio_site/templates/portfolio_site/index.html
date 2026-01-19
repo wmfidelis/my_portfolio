@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - My Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-primary text-white py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-3 fw-bold mb-3">Hi, I'm [Your Name]</h1>
+                <h2 class="h3 mb-4">Full Stack Developer & Problem Solver</h2>
+                <p class="lead mb-4">
+                    I build modern web applications using Django, Python, and JavaScript. 
+                    Passionate about creating efficient, scalable solutions.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'portfolio_site:projects' %}" class="btn btn-light btn-lg">
+                        <i class="bi bi-folder"></i> View Projects
+                    </a>
+                    <a href="{% url 'portfolio_site:contact' %}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-envelope"></i> Contact Me
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4 text-center d-none d-lg-block">
+                <i class="bi bi-code-slash" style="font-size: 15rem; opacity: 0.2;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Skills & Technologies</h2>
+        <div class="row g-4">
+            {% for category, skills in skills_by_category.items %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary mb-4">
+                            <i class="bi bi-{{ skills.0.icon|default:'star' }}"></i> {{ category }}
+                        </h5>
+                        {% for skill in skills %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>{{ skill.name }}</span>
+                                <span class="text-muted">{{ skill.proficiency }}%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {{ skill.proficiency }}%"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted">
+                <p>No skills added yet. Add some in the admin panel!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Projects</h2>
+        <div class="row g-4">
+            {% for project in featured_projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm hover-lift">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" 
+                         style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="bg-secondary text-white d-flex align-items-center justify-content-center" 
+                         style="height: 200px;">
+                        <i class="bi bi-image" style="font-size: 3rem;"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text text-muted">{{ project.short_description }}</p>
+                        <div class="mb-3">
+                            {% for tech in project.technologies.all|slice:":3" %}
+                            <span class="badge bg-primary me-1">{{ tech.name }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'portfolio_site:project_detail' project.pk %}" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-info-circle"></i> Details
+                            </a>
+                            {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" 
+                               class="btn btn-sm btn-outline-dark">
+                                <i class="bi bi-github"></i> Code
+                            </a>
+                            {% endif %}
+                            {% if project.live_url %}
+                            <a href="{{ project.live_url }}" target="_blank" 
+                               class="btn btn-sm btn-outline-success">
+                                <i class="bi bi-box-arrow-up-right"></i> Live
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center text-muted">
+                <i class="bi bi-folder-x" style="font-size: 4rem;"></i>
+                <p class="mt-3">No featured projects yet. Add some in the admin panel!</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% if featured_projects %}
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio_site:projects' %}" class="btn btn-primary">
+                View All Projects <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="bg-dark text-white py-5">
+    <div class="container text-center">
+        <h2 class="mb-3">Let's Work Together</h2>
+        <p class="lead mb-4">
+            Have a project in mind? Let's discuss how I can help bring your ideas to life.
+        </p>
+        <a href="{% url 'portfolio_site:contact' %}" class="btn btn-light btn-lg">
+            <i class="bi bi-envelope"></i> Get In Touch
+        </a>
+    </div>
+</section>
+{% endblock %}

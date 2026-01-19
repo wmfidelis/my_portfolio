@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - My Portfolio{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-primary text-white py-5">
+    <div class="container">
+        <h1 class="display-4 mb-3">Get In Touch</h1>
+        <p class="lead">Have a question or want to work together? Drop me a message!</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-8 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="mb-4">Send a Message</h3>
+                        {% crispy form %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Contact Information</h5>
+                        
+                        <div class="mb-3">
+                            <i class="bi bi-envelope-fill text-primary me-2"></i>
+                            <strong>Email:</strong><br>
+                            <a href="mailto:your.email@example.com" class="text-decoration-none">
+                                your.email@example.com
+                            </a>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+                            <strong>Location:</strong><br>
+                            Nairobi, Kenya
+                        </div>
+                        
+                        <div class="mb-3">
+                            <i class="bi bi-clock-fill text-primary me-2"></i>
+                            <strong>Response Time:</strong><br>
+                            Usually within 24-48 hours
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Connect With Me</h5>
+                        <div class="d-flex flex-column gap-3">
+                            <a href="#" class="btn btn-outline-dark" target="_blank">
+                                <i class="bi bi-github"></i> GitHub
+                            </a>
+                            <a href="#" class="btn btn-outline-primary" target="_blank">
+                                <i class="bi bi-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="#" class="btn btn-outline-info" target="_blank">
+                                <i class="bi bi-twitter"></i> Twitter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <h3 class="text-center mb-5">Frequently Asked Questions</h3>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                What services do you offer?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                I specialize in full-stack web development using Django, Python, and modern JavaScript frameworks. 
+                                I can help with custom web applications, API development, and database design.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How long does a typical project take?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Project timelines vary based on complexity and scope. A simple website might take 2-3 weeks, 
+                                while more complex applications can take 2-3 months. I'll provide a detailed timeline after 
+                                discussing your requirements.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Do you work remotely?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes! I work with clients worldwide and am comfortable with remote collaboration using 
+                                tools like Slack, Zoom, and GitHub for project management and communication.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
