@@ -27,4 +27,4 @@ Prerequisites
 
 Python 3.11+
 PostgreSQL
-Redis (optional, for caching)
+Redis
