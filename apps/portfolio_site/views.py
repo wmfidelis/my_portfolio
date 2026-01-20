@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 from .models import Project, Skill, ContactMessage
 from .forms import ContactForm
 
@@ -77,3 +79,24 @@ def contact(request):
         'form': form,
     }
     return render(request, 'portfolio_site/contact.html', context)
+
+
+def signup(request):
+    """User registration view"""
+    if request.user.is_authenticated:
+        return redirect('portfolio_site:index')
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, f'Welcome {user.username}! Your account has been created.')
+            return redirect('portfolio_site:index')
+    else:
+        form = UserCreationForm()
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'registration/signup.html', context)
