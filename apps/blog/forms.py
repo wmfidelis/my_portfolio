@@ -1,10 +1,30 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Field
-from .models import Post, Comment
+from .models import Post, Comment, Category, Tag
 
 class PostForm(forms.ModelForm):
     """Form for creating and editing blog posts"""
+    
+    # Add option to create new category
+    new_category = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Or create new category',
+            'class': 'form-control'
+        }),
+        help_text="Leave blank to use existing category"
+    )
+    
+    # Add option to create new tags
+    new_tags = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Create new tags (comma-separated)',
+            'class': 'form-control'
+        }),
+        help_text="Example: python, django, tutorial"
+    )
     
     class Meta:
         model = Post
@@ -41,16 +61,46 @@ class PostForm(forms.ModelForm):
             'title',
             Row(
                 Column('category', css_class='form-group col-md-6 mb-3'),
-                Column('status', css_class='form-group col-md-6 mb-3'),
+                Column('new_category', css_class='form-group col-md-6 mb-3'),
                 css_class='form-row'
             ),
             'content',
             'excerpt',
             'tags',
-            'featured_image',
+            'new_tags',
+            Row(
+                Column('status', css_class='form-group col-md-6 mb-3'),
+                Column('featured_image', css_class='form-group col-md-6 mb-3'),
+                css_class='form-row'
+            ),
             Field('is_featured', css_class='form-check-input'),
             Submit('submit', 'Save Post', css_class='btn btn-primary btn-lg mt-3')
         )
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        
+        # Handle new category creation
+        new_category = self.cleaned_data.get('new_category')
+        if new_category:
+            category, created = Category.objects.get_or_create(name=new_category)
+            instance.category = category
+        
+        instance.save()
+        
+        # Handle new tags creation
+        new_tags = self.cleaned_data.get('new_tags')
+        if new_tags:
+            tag_names = [tag.strip() for tag in new_tags.split(',') if tag.strip()]
+            for tag_name in tag_names:
+                tag, created = Tag.objects.get_or_create(name=tag_name)
+                instance.tags.add(tag)
+        
+        
+        # Save many-to-many relationships
+        self.save_m2m()
+        
+        return instance
 
 
 class CommentForm(forms.ModelForm):

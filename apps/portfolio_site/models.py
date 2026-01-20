@@ -3,7 +3,7 @@ from django.utils import timezone
 
 class Skill(models.Model):
     """Model for skills/technologies"""
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     proficiency = models.IntegerField(
         help_text="Proficiency level (0-100)",
         default=50
