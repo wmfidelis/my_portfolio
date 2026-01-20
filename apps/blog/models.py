@@ -98,19 +98,26 @@ class Post(models.Model):
             models.Index(fields=['status']),
         ]
     
+
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
-        
-        # Set published date when status changes to published
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            # Ensure slug is unique across all posts
+            while Post.objects.filter(slug=slug).exclude(id=self.id).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
+    
         if self.status == 'published' and not self.published_date:
             self.published_date = timezone.now()
-        
-        # Generate excerpt from content if not provided
+    
         if not self.excerpt and self.content:
             self.excerpt = self.content[:297] + '...' if len(self.content) > 300 else self.content
-        
+    
         super().save(*args, **kwargs)
+
     
     def __str__(self):
         return self.title

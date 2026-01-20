@@ -53,11 +53,18 @@ def post_list(request):
 
 def post_detail(request, slug):
     """Display single post with comments"""
-    post = get_object_or_404(
-        Post.objects.select_related('author', 'category').prefetch_related('tags', 'comments'),
-        slug=slug,
-        status='published'
-    )
+
+    # Superusers can see all posts; others only published
+    if request.user.is_superuser:
+        post = get_object_or_404(
+            Post.objects.select_related('author', 'category').prefetch_related('tags', 'comments'),
+            slug=slug
+        )
+    else:
+        post = get_object_or_404(
+            Post.objects.select_related('author', 'category').prefetch_related('tags', 'comments'),
+            slug=slug,
+        )
     
     # Increment view count
     post.increment_views()
@@ -101,6 +108,7 @@ def post_detail(request, slug):
         'related_posts': related_posts,
     }
     return render(request, 'blog/post_detail.html', context)
+
 
 
 @login_required
