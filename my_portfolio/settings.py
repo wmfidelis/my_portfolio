@@ -9,7 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security settings
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
 DEBUG = config('DEBUG', default=False, cast=bool)
-#ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='my-portfolio.onrender.com').split(',')
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='my-portfolio-v3uy.onrender.com').split(',')
 
 # Application definition
@@ -149,6 +148,7 @@ else:
 
 # Default from email
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@myportfolio.com')
+SERVER_EMAIL = config('EMAIL_HOST_USER', default='noreply@myportfolio.com')
 
 # OpenWeatherMap API
 OPENWEATHER_API_KEY = config('OPENWEATHER_API_KEY', default='')
