@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from .models import Project, Skill, ContactMessage
 from .forms import ContactForm, EmailSignupForm 
+from .utils import send_email_async
 
 
 def index(request):
@@ -56,7 +57,7 @@ def contact(request):
             # Send email notification (optional)
             if settings.EMAIL_HOST_USER:
                 try:
-                    send_mail(
+                    send_email_async(
                         subject=f"New Contact Form: {contact_message.subject}",
                         message=f"From: {contact_message.name} ({contact_message.email})\n\n{contact_message.message}",
                         from_email=settings.EMAIL_HOST_USER,
