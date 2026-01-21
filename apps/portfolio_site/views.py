@@ -10,7 +10,6 @@ from .forms import ContactForm, EmailSignupForm
 
 def index(request):
     """Homepage view"""
-    featured_projects = Project.objects.filter(is_featured=True)[:3]
     skills = Skill.objects.all()
     
     # Group skills by category
@@ -22,7 +21,6 @@ def index(request):
         skills_by_category[category].append(skill)
     
     context = {
-        'featured_projects': featured_projects,
         'skills_by_category': skills_by_category,
     }
     return render(request, 'portfolio_site/index.html', context)
