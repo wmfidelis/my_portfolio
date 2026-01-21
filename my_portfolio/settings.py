@@ -148,7 +148,7 @@ else:
 
 # Default from email
 DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@myportfolio.com')
-#SERVER_EMAIL = config('EMAIL_HOST_USER', default='noreply@myportfolio.com')
+SERVER_EMAIL = config('EMAIL_HOST_USER', default='noreply@myportfolio.com')
 
 # OpenWeatherMap API
 OPENWEATHER_API_KEY = config('OPENWEATHER_API_KEY', default='')
