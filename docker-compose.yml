@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: myportfolio_db
+      POSTGRES_USER: myportfolio_user
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    command: gunicorn my_portfolio.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DJANGO_DB_NAME: myportfolio_db
+      DJANGO_DB_USER: myportfolio_user
+      DJANGO_DB_PASSWORD: mysecretpassword
+      DJANGO_DB_HOST: db
+      DJANGO_DB_PORT: 5432
+
+volumes:
+  postgres_data:
