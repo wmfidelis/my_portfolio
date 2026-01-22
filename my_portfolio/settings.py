@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+from supabase import create_client
 from decouple import config
 import dj_database_url
 
@@ -97,6 +98,18 @@ CACHES = {
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_CACHE_ALIAS = 'default'
 
+SUPABASE_URL = config('SUPABASE_URL')
+SUPABASE_KEY = config('SUPABASE_KEY')
+
+# sanity check
+if not SUPABASE_URL or not SUPABASE_KEY:
+    raise ValueError("Supabase environment variables are not set!")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+
+MEDIA_URL = f"{SUPABASE_URL}/storage/v1/object/public/media/"
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -118,7 +131,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type

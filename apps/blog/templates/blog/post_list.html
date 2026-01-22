@@ -50,8 +50,8 @@
                 {% for post in page_obj %}
                 <article class="card shadow-sm mb-4 hover-lift">
                     {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}" 
-                         style="height: 300px; object-fit: cover;">
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}"> 
+                        <style="heigh; object-fit: cover;">
                     {% else %}
                     <div class="bg-secondary text-white d-flex align-items-center justify-content-center" 
                          style="height: 300px;">

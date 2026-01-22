@@ -1,8 +1,12 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.urls import reverse
 from django.utils.text import slugify
+from my_portfolio.settings import supabase  # import the client
+import os
+
 
 class Category(models.Model):
     """Blog post categories"""
@@ -109,14 +113,30 @@ class Post(models.Model):
                 slug = f"{base_slug}-{counter}"
                 counter += 1
             self.slug = slug
-    
+
         if self.status == 'published' and not self.published_date:
             self.published_date = timezone.now()
-    
+
         if not self.excerpt and self.content:
             self.excerpt = self.content[:297] + '...' if len(self.content) > 300 else self.content
-    
+
         super().save(*args, **kwargs)
+        
+        if self.featured_image:
+            file_path = self.featured_image.name           
+            # Check if file already exists in Supabase
+            try:
+                supabase.storage.from_("media").upload(
+            file_path, 
+            open(self.featured_image.path, "rb").read()
+        )
+                
+            except Exception as e:
+                print("Supabase upload error:", e)
+            
+            # Optional: remove local file after upload
+            if os.path.exists(self.featured_image.path):
+                os.remove(self.featured_image.path)
 
     
     def __str__(self):

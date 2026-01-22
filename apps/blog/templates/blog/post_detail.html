@@ -19,7 +19,8 @@
                 <article class="card shadow-sm mb-4">
                     <!-- Featured Image -->
                     {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}">
+
                     {% endif %}
                     
                     <div class="card-body">
