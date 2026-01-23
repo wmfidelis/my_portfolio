@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Gratitude Journal - Hope & Healing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #120220 0%, #0c4124 100%);
+        color: white;
+    }
+
+    .entry-card {
+        border-left: 4px solid #3dee11;
+        transition: transform 0.3s ease;
+    }
+
+    .entry-card:hover {
+        transform: translateY(-4px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- 🌿 Hero Section -->
+<section class="hero-section py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
+                <h1 class="display-4 mb-3">🙏 Gratitude Journal</h1>
+                <p class="lead">
+                    Gratitude turns what we have into enough
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="bi bi-journal-heart" style="font-size: 5rem; opacity: 0.8;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ✍️ Journal Content -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- New Entry -->
+            <div class="col-lg-5">
+                <div class="card shadow-sm mb-4" style="position: sticky; top: 20px;">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Today's Gratitude</h5>
+                    </div>
+                    <div class="card-body">
+                        {% crispy form %}
+                    </div>
+                </div>
+
+                <!-- Prompts -->
+                <div class="card shadow-sm text-white"
+                     style="background: linear-gradient(135deg, #6a15b9 0%, #02311d 100%);">
+                    <div class="card-body">
+                        <h6 class="mb-3">💡 Gratitude Prompts</h6>
+                        <ul class="small mb-0">
+                            <li>Three things that made you smile today</li>
+                            <li>Someone who helped you recently</li>
+                            <li>A lesson you learned this week</li>
+                            <li>Something beautiful you noticed</li>
+                            <li>A comfort you often take for granted</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Past Entries -->
+            <div class="col-lg-7 text-white" style="background: linear-gradient(135deg, #6a15b9 0%, #02311d 100%);">
+                <h4 class="mb-4">📖 Your Gratitude History</h4>
+
+                {% for entry in entries %}
+                <div class="card shadow-sm mb-3 entry-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h6 class="text-muted mb-0">
+                                <i class="bi bi-calendar"></i>
+                                {{ entry.date|date:"l, F d, Y" }}
+                            </h6>
+                            <span class="badge bg-success">Day {{ forloop.counter }}</span>
+                        </div>
+                        <p class="mb-0">{{ entry.entry }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="card shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="bi bi-journal-plus text-muted" style="font-size: 4rem;"></i>
+                        <h5 class="mt-3 text-muted">Start Your Gratitude Journey</h5>
+                        <p class="text-muted">
+                            Begin by writing what you're grateful for today.
+                            Even small things count ✨
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if entries %}
+                <div class="text-center mt-4">
+                    <div class="alert alert-success">
+                        <i class="bi bi-trophy"></i>
+                        <strong>{{ entries.count }}</strong>
+                        days of gratitude — keep going 🌱
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

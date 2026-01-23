@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Your Progress - Hope & Healing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #120220 0%, #0c4124 100%);
+        color: white;
+    }
+    .stat-card {
+        transition: transform 0.3s ease;
+        border-left: 5px solid #3dee11;
+    }
+    .stat-card:hover {
+        transform: translateY(-6px);
+    }
+    .timeline-item {
+        border-left: 3px solid #3dee11;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+    }
+    .mood-badge {
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 mb-3">📈 Your Healing Progress</h1>
+                <p class="lead">
+                    A gentle overview of your growth over the past 30 days
+                </p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="bi bi-graph-up-arrow" style="font-size: 5rem; opacity: 0.8;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Overview -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card stat-card shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2">{{ total_checkins }}</h3>
+                        <p class="text-muted mb-0">Daily Check-ins</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="bi bi-stopwatch-fill text-primary" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2">{{ total_meditation_time }}</h3>
+                        <p class="text-muted mb-0">Meditation Sessions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card stat-card shadow-sm text-center">
+                    <div class="card-body">
+                        <i class="bi bi-journal-heart-fill text-danger" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2">{{ total_gratitude_entries }}</h3>
+                        <p class="text-muted mb-0">Gratitude Entries</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Mood & Activity Timeline -->
+<section class="py-4">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Mood Trends -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-success text-white">
+                        🌤 Mood Check-ins
+                    </div>
+                    <div class="card-body">
+                        {% if mood_data %}
+                            {% for mood in mood_data %}
+                            <div class="timeline-item">
+                                <small class="text-muted">
+                                    {{ mood.date|date:"M d, Y" }}
+                                </small>
+                                <p class="mb-1">
+                                    Morning mood:
+                                    <span class="badge bg-info mood-badge">
+                                        {{ mood.mood }}
+                                    </span>
+                                </p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted text-center">
+                                No mood data yet. Start checking in 🌱
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meditation History -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-light">
+                        🧘 Recent Meditation Sessions
+                    </div>
+                    <div class="card-body">
+                        {% if sessions %}
+                            {% for session in sessions %}
+                            <div class="mb-3 pb-2 {% if not forloop.last %}border-bottom{% endif %}">
+                                <small class="text-muted">
+                                    {{ session.date|date:"M d, Y H:i" }}
+                                </small>
+                                <p class="mb-0">
+                                    {{ session.get_session_type_display }} —
+                                    {{ session.duration_minutes }} minutes
+                                </p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted text-center">
+                                No meditation sessions yet 🌿
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Encouragement -->
+<section class="py-4 bg-light">
+    <div class="container text-center">
+        <div class="alert alert-success shadow-sm">
+            <i class="bi bi-heart-fill"></i>
+            Healing isn’t linear — every step you take matters.  
+            Keep showing up for yourself 💚
+        </div>
+    </div>
+</section>
+
+{% endblock %}

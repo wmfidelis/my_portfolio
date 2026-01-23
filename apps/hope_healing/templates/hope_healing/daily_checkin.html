@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Daily Check-In - Hope & Healing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .checkin-hero {
+        background: linear-gradient(135deg, #094126 0%, #470964 100%);
+        color: white;
+    }
+
+    .checkin-card {
+        border-radius: 18px;
+        border: none;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .checkin-section {
+        background: #f9f9fb;
+        padding: 1.5rem;
+        border-radius: 14px;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: #470964;
+    }
+
+    .form-check {
+        padding: 10px 14px;
+        border-radius: 12px;
+        transition: background 0.2s ease;
+    }
+
+    .form-check:hover {
+        background: rgba(71,9,100,0.06);
+    }
+
+    textarea.form-control,
+    input.form-control {
+        border-radius: 12px;
+        border: 1px solid #ddd;
+    }
+
+    .save-btn {
+        background: linear-gradient(135deg, #094126 0%, #470964 100%);
+        border: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="checkin-hero py-5 mb-4">
+    <div class="container text-center">
+        <h1 class="display-5 mb-2">📋 Daily Check-In</h1>
+        <p class="lead mb-0">A gentle pause to listen to yourself</p>
+    </div>
+</section>
+
+<section class="pb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="card checkin-card">
+                    <div class="card-body p-4">
+
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <!-- Morning Mood -->
+                            <div class="checkin-section">
+                                <div class="section-title">☀️ Morning Mood</div>
+                                {% for value, label in form.fields.morning_mood.choices %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           name="morning_mood" value="{{ value }}"
+                                           id="morning_{{ value }}"
+                                           {% if checkin.morning_mood == value %}checked{% endif %}>
+                                    <label class="form-check-label" for="morning_{{ value }}">
+                                        {{ label }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Evening Mood -->
+                            <div class="checkin-section">
+                                <div class="section-title">🌙 Evening Mood</div>
+                                {% for value, label in form.fields.evening_mood.choices %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio"
+                                           name="evening_mood" value="{{ value }}"
+                                           id="evening_{{ value }}"
+                                           {% if checkin.evening_mood == value %}checked{% endif %}>
+                                    <label class="form-check-label" for="evening_{{ value }}">
+                                        {{ label }}
+                                    </label>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Spiritual Practices -->
+                            <div class="checkin-section">
+                                <div class="section-title">🙏 Spiritual Practices</div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="prayed" id="prayed" value="True"
+                                           {% if checkin.prayed %}checked{% endif %}>
+                                    <label class="form-check-label" for="prayed">Prayer</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="meditated" id="meditated" value="True"
+                                           {% if checkin.meditated %}checked{% endif %}>
+                                    <label class="form-check-label" for="meditated">Meditation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           name="read_scripture" id="read_scripture" value="True"
+                                           {% if checkin.read_scripture %}checked{% endif %}>
+                                    <label class="form-check-label" for="read_scripture">
+                                        Read Spiritual Texts
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Duration -->
+                            <div class="checkin-section">
+                                <div class="section-title">⏱️ Meditation / Prayer Duration</div>
+                                <input type="number" class="form-control"
+                                       name="meditation_minutes" min="0"
+                                       value="{{ checkin.meditation_minutes|default:0 }}">
+                            </div>
+
+                            <!-- Notes -->
+                            <div class="checkin-section">
+                                <div class="section-title">📝 Reflections</div>
+                                <textarea class="form-control" name="notes" rows="4"
+                                    placeholder="Any reflections or insights from today...">{{ checkin.notes }}</textarea>
+                            </div>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-lg text-white save-btn">
+                                    <i class="bi bi-check-circle"></i> Save Check-In
+                                </button>
+                                <a href="{% url 'hope_healing:index' %}" class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <!-- Tips -->
+                <div class="card shadow-sm mt-4"
+                     style="background: linear-gradient(135deg, #045f2d 0%, #764ba2 100%); color: white;">
+                    <div class="card-body">
+                        <h5 class="mb-3">💡 Gentle Reminder</h5>
+                        <ul class="mb-0">
+                            <li>You don’t need to feel “good” to check in</li>
+                            <li>Consistency matters more than perfection</li>
+                            <li>Your awareness is already progress</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

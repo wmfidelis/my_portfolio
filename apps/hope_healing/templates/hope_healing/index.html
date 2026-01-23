@@ -1,0 +1,261 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hope & Healing Journey{% endblock %}
+
+{% block extra_css %}
+<style>
+    .affirmation-card {
+        background: linear-gradient(135deg, #214e07 0%, #300842 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+    .stat-card {
+        border-left: 4px solid;
+        transition: transform 0.3s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .quick-action {
+        transition: all 0.3s ease;
+    }
+    .quick-action:hover {
+        transform: scale(1.05);
+    }
+    
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+
+    <div class="container py-5 text-white">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-12 mb-4 mb-lg-0 text-center text-lg-start">
+                <h1 class="display-4 mb-3">🌟 Hope & Healing Journey</h1>
+                <p class="lead">Your daily companion for mental wellness and spiritual growth</p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <div class="text-white">
+                    <i class="bi bi-heart-fill" style="font-size: 5rem; opacity: 0.8;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Daily Affirmation -->
+<section class="py-4">
+    <div class="container">
+        <div class="affirmation-card text-center">
+            <h3 class="mb-3">✨ Today's Affirmation</h3>
+            <p class="lead mb-0" style="font-size: 1.5rem; font-weight: 300;">
+                "{{ daily_affirmation }}"
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Stats -->
+<section class="py-4">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="card stat-card h-100 shadow-sm" style="border-left-color: #3dee11;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-check-circle text-primary" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2 mb-0">{{ days_checked_in }}/7</h3>
+                        <p class="text-muted mb-0">Days This Week</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card h-100 shadow-sm" style="border-left-color: #7b18b4;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-peace text-success" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2 mb-0">{{ total_meditation_minutes }}</h3>
+                        <p class="text-muted mb-0">Meditation Minutes</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card h-100 shadow-sm" style="border-left-color: #15db89;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-journal-text text-warning" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2 mb-0">{{ recent_gratitude.count }}</h3>
+                        <p class="text-muted mb-0">Gratitude Entries</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card stat-card h-100 shadow-sm" style="border-left-color: #4facfe;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-sunrise text-info" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2 mb-0">{% if checkin.morning_mood %}✅{% else %}⏳{% endif %}</h3>
+                        <p class="text-muted mb-0">Today's Check-in</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Actions -->
+<section class="py-4">
+    <div class="container">
+        <h3 class="mb-4 text-white" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">Quick Actions</h3>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <a href="{% url 'hope_healing:daily_checkin' %}" class="text-decoration-none">
+                    <div class="card quick-action shadow-sm h-100 border-primary" >
+                        <div class="card-body text-center">
+                            <i class="bi bi-clipboard-check text-primary" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3">Daily Check-In</h5>
+                            <p class="text-muted mb-0">Track your mood and practices</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'hope_healing:gratitude_journal' %}" class="text-decoration-none">
+                    <div class="card quick-action shadow-sm h-100 border-success">
+                        <div class="card-body text-center">
+                            <i class="bi bi-heart text-success" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3">Gratitude Journal</h5>
+                            <p class="text-muted mb-0">Count your blessings</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'hope_healing:meditation_timer' %}" class="text-decoration-none">
+                    <div class="card quick-action shadow-sm h-100 border-info">
+                        <div class="card-body text-center">
+                            <i class="bi bi-stopwatch text-info" style="font-size: 3rem;"></i>
+                            <h5 class="mt-3">Meditation Timer</h5>
+                            <p class="text-muted mb-0">Practice mindfulness</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Activity & Crisis Support -->
+<section class="py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Recent Gratitude -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-light" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);" >
+                        <h5 class="mb-0 text-white">🙏 Recent Gratitude</h5>
+                    </div>
+                    <div class="card-body">
+                        {% for entry in recent_gratitude %}
+                        <div class="mb-3 pb-3 {% if not forloop.last %}border-bottom{% endif %}">
+                            <small class="text-muted">{{ entry.date|date:"M d, Y" }}</small>
+                            <p class="mb-0">{{ entry.entry|truncatewords:30 }}</p>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted text-center mb-0">No gratitude entries yet. Start today!</p>
+                        {% endfor %}
+                        
+                        {% if recent_gratitude %}
+                        <a href="{% url 'hope_healing:gratitude_journal' %}" class="btn btn-sm btn-success">
+                            View All Entries
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- More Actions -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="{% url 'hope_healing:affirmations' %}" class="text-decoration-none">
+                            <div class="card shadow-sm">
+                                <div class="card-body" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                                    <i class="bi bi-star text-warning"></i>
+                                    <strong class="ms-2 text-white">Browse Affirmations</strong>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{% url 'hope_healing:progress_dashboard' %}" class="text-decoration-none">
+                            <div class="card shadow-sm">
+                                <div class="card-body"style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                                    <i class="bi bi-graph-up text-primary"></i>
+                                    <strong class="ms-2 text-white">View Progress</strong>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{% url 'hope_healing:community' %}" class="text-decoration-none">
+                            <div class="card shadow-sm">
+                                <div class="card-body" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                                    <i class="bi bi-people text-info"></i>
+                                    <strong class="ms-2 text-white">Community Support</strong>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{% url 'hope_healing:resources' %}" class="text-decoration-none">
+                            <div class="card shadow-sm">
+                                <div class="card-body" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                                    <i class="bi bi-book text-success"></i>
+                                    <strong class="ms-2 text-white">Resources</strong>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Crisis Support Sidebar -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-danger mb-4">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">🆘 Need Help Now?</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-3">If you're in crisis, please reach out:</p>
+                        
+                        {% for resource in crisis_resources %}
+                        <div class="mb-3 pb-3 border-bottom">
+                            <h6 class="mb-1">{{ resource.title }}</h6>
+                            <p class="text-muted small mb-1">{{ resource.description }}</p>
+                            {% if resource.phone %}
+                            <a href="tel:{{ resource.phone }}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-telephone"></i> {{ resource.phone }}
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        
+                        <a href="{% url 'hope_healing:resources' %}" class="btn btn-outline-danger btn-sm w-100">
+                            View All Resources
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Inspirational Quote -->
+                <div class="card shadow-sm" style="background: linear-gradient(135deg, #7d0c8a 0%, #570712 100%); color: white;">
+                    <div class="card-body text-center">
+                        <i class="bi bi-quote" style="font-size: 2rem;"></i>
+                        <p class="mt-2 mb-3">"You are braver than you believe, stronger than you seem, and loved more than you know."</p>
+                        <small>- Keep going, you've got this! 💪</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

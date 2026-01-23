@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}Resources - Hope & Healing{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="bg-primary text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4 mb-3">📚 Resources & Support</h1>
+        <p class="lead">You are not alone. Help is available.</p>
+    </div>
+</section>
+
+<!-- Crisis Support - Always First -->
+<section class="py-5">
+    <div class="container">
+        <div class="alert alert-danger border-danger shadow-sm">
+            <h4 class="alert-heading">
+                <i class="bi bi-exclamation-triangle-fill"></i> In Crisis? Get Help Now
+            </h4>
+            <p class="mb-0">
+                If you're experiencing thoughts of harming yourself or others, please reach out immediately. 
+                You deserve support, and people want to help you.
+            </p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            {% for resource in crisis_resources %}
+            <div class="col-md-6">
+                <div class="card shadow-sm border-danger h-100">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">
+                            <i class="bi bi-telephone-fill"></i> {{ resource.title }}
+                        </h5>
+                        <p class="card-text">{{ resource.description }}</p>
+                        {% if resource.phone %}
+                        <a href="tel:{{ resource.phone }}" class="btn btn-danger btn-lg w-100">
+                            <i class="bi bi-telephone"></i> Call {{ resource.phone }}
+                        </a>
+                        {% endif %}
+                        {% if resource.url %}
+                        <a href="{{ resource.url }}" target="_blank" class="btn btn-outline-danger mt-2 w-100">
+                            <i class="bi bi-box-arrow-up-right"></i> Visit Website
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h5>National Crisis Resources</h5>
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-3">
+                                <h6>Suicide & Crisis Lifeline</h6>
+                                <a href="tel:988" class="btn btn-danger btn-lg w-100">
+                                    <i class="bi bi-telephone"></i> Call 988
+                                </a>
+                                <p class="small text-muted mt-2">24/7 free and confidential support</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6>Crisis Text Line</h6>
+                                <a href="sms:741741" class="btn btn-danger btn-lg w-100">
+                                    <i class="bi bi-chat-dots"></i> Text HOME to 741741
+                                </a>
+                                <p class="small text-muted mt-2">24/7 crisis support via text</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Featured Resources -->
+        {% if featured_resources %}
+        <h3 class="mb-4">⭐ Featured Resources</h3>
+        <div class="row g-4 mb-5">
+            {% for resource in featured_resources %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm h-100 hover-lift">
+                    <div class="card-body">
+                        <div class="mb-2">
+                            {% if resource.resource_type == 'article' %}
+                            <i class="bi bi-file-text text-primary" style="font-size: 2rem;"></i>
+                            {% elif resource.resource_type == 'video' %}
+                            <i class="bi bi-play-circle text-danger" style="font-size: 2rem;"></i>
+                            {% elif resource.resource_type == 'book' %}
+                            <i class="bi bi-book text-success" style="font-size: 2rem;"></i>
+                            {% elif resource.resource_type == 'app' %}
+                            <i class="bi bi-phone text-info" style="font-size: 2rem;"></i>
+                            {% else %}
+                            <i class="bi bi-link-45deg text-warning" style="font-size: 2rem;"></i>
+                            {% endif %}
+                            <span class="badge bg-secondary ms-2">{{ resource.get_resource_type_display }}</span>
+                        </div>
+                        <h5 class="card-title">{{ resource.title }}</h5>
+                        <p class="card-text text-muted">{{ resource.description }}</p>
+                        {% if resource.url %}
+                        <a href="{{ resource.url }}" target="_blank" class="btn btn-outline-primary">
+                            <i class="bi bi-box-arrow-up-right"></i> Visit
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Other Resources -->
+        {% if other_resources %}
+        <h3 class="mb-4">📖 Additional Resources</h3>
+        <div class="row g-3">
+            {% for resource in other_resources %}
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title">
+                            <span class="badge bg-{{ resource.resource_type|default:'secondary' }} me-2">
+                                {{ resource.get_resource_type_display }}
+                            </span>
+                            {{ resource.title }}
+                        </h6>
+                        <p class="card-text small text-muted">{{ resource.description }}</p>
+                        {% if resource.url %}
+                        <a href="{{ resource.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            Learn More
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Remember -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="card shadow-sm" style="background: linear-gradient(135deg, #065f36 0%, #300957 100%); color: white;">
+            <div class="card-body text-center p-5">
+                <h3 class="mb-3">💙 You Matter</h3>
+                <p class="lead mb-0">
+                    Your life has value and meaning. Reaching out for help is a sign of strength, not weakness. 
+                    Recovery is possible, and better days are ahead.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

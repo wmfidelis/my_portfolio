@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meditation Timer - Hope & Healing{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #120220 0%, #0c4124 100%);
+        color: white;
+    }
+    .session-card {
+        border-left: 4px solid #3dee11;
+        transition: transform 0.3s ease;
+    }
+    .session-card:hover {
+        transform: translateY(-5px);
+    }
+    .timer-display {
+        font-size: 3rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 1rem;
+        background-color: #e8f5e9;
+        border-radius: 10px;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8 col-md-12 mb-4 mb-lg-0 text-center text-lg-start">
+                <h1 class="display-4 mb-3">🧘 Meditation Timer</h1>
+                <p class="lead">Track your meditation and prayer sessions for daily growth</p>
+            </div>
+            <div class="col-lg-4 text-center">
+                <i class="bi bi-stopwatch" style="font-size: 5rem; opacity: 0.8;"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Meditation Form -->
+<section class="py-4">
+    <div class="container">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-success text-white">
+                Log a Meditation Session
+            </div>
+            <div class="card-body">
+                <form id="meditationForm" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-circle"></i> Start Session
+                    </button>
+                </form>
+                
+                <!-- Timer -->
+                <div id="timer" class="timer-display d-none">00:00</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats & Recent Sessions -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card text-center shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-clock-history text-success" style="font-size: 2.5rem;"></i>
+                        <h3 class="mt-2">{{ total_minutes }}</h3>
+                        <p class="text-muted mb-0">Total Minutes Meditated</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-light" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                        <h5 class="mb-0 text-white">Recent Sessions</h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_sessions %}
+                            {% for session in recent_sessions %}
+                            <div class="mb-3 pb-3 {% if not forloop.last %}border-bottom{% endif %}">
+                                <small class="text-muted">{{ session.date|date:"M d, Y H:i" }}</small>
+                                <p class="mb-0">{{ session.get_session_type_display }} – {{ session.duration_minutes }} minutes</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted text-center mb-0">No sessions logged yet. Start meditating today! 🌿</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('meditationForm');
+    const timerDisplay = document.getElementById('timer');
+    let countdownInterval;
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Get the duration from the form input (assuming your form has "duration_minutes" field)
+        const durationInput = form.querySelector('[name="duration_minutes"]');
+        let minutes = parseInt(durationInput.value);
+        if (isNaN(minutes) || minutes <= 0) {
+            alert('Please enter a valid number of minutes.');
+            return;
+        }
+
+        // Convert to seconds
+        let timeLeft = minutes * 60;
+        timerDisplay.classList.remove('d-none');
+
+        // Clear any existing interval
+        clearInterval(countdownInterval);
+
+        // Start countdown
+        countdownInterval = setInterval(() => {
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(countdownInterval);
+                timerDisplay.textContent = 'Session Complete! 🎉';
+                // Optionally submit the form automatically
+                form.submit();
+            }
+        }, 1000);
+    });
+});
+</script>
+{% endblock %}

@@ -11,6 +11,7 @@ cryptography==46.0.3
 deprecation==2.1.0
 dj-database-url==2.1.0
 Django==6.0.1
+django-anymail==14.0
 django-crispy-forms==2.5
 django-redis==5.4.0
 fsspec==2026.1.0
@@ -23,6 +24,7 @@ httpx==0.28.1
 hyperframe==6.1.0
 idna==3.11
 markdown-it-py==4.0.0
+MarkupSafe==3.0.3
 mdurl==0.1.2
 mmh3==5.2.0
 multidict==6.7.0
@@ -43,11 +45,13 @@ pyroaring==1.0.3
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 python-dotenv==1.0.0
+python-http-client==3.3.7
 pytz==2024.1
 realtime==2.27.2
 redis==7.1.0
 requests==2.31.0
 rich==14.2.0
+sendgrid==6.12.5
 setuptools==80.9.0
 six==1.17.0
 sortedcontainers==2.4.0
@@ -63,6 +67,7 @@ typing-inspection==0.4.2
 typing_extensions==4.15.0
 urllib3==2.6.3
 websockets==15.0.1
+Werkzeug==3.1.5
 wheel==0.45.1
 whitenoise==6.6.0
 yarl==1.22.0

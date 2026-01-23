@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Affirmations - Hope & Healing{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #095f1f 0%, #29042e 100%);">
+    <div class="container text-white text-center">
+        <h1 class="display-4 mb-3">✨ Affirmations Library</h1>
+        <p class="lead">Positive words for your soul</p>
+    </div>
+</section>
+
+<!-- Daily Affirmation Highlight -->
+<section class="py-4">
+    <div class="container">
+        <div class="card shadow-lg" style="background: linear-gradient(135deg, #1d0220 0%, #550510 100%); color: white;">
+            <div class="card-body text-center p-5">
+                <h3 class="mb-3">🌟 Your Affirmation for Today</h3>
+                <p class="display-6 mb-4" style="font-weight: 300;">
+                    "{{ random_affirmation }}"
+                </p>
+                <button class="btn btn-light" onclick="location.reload()">
+                    <i class="bi bi-arrow-repeat"></i> Get New Affirmation
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="py-4">
+    <div class="container">
+        <h3 class="mb-4">Browse by Category</h3>
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <a href="{% url 'hope_healing:affirmations' %}" class="text-decoration-none">
+                    <div class="card {% if not selected_category %}border-primary{% endif %} shadow-sm">
+                        <div class="card-body text-center">
+                            <i class="bi bi-star-fill text-warning" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2 mb-0">All Affirmations</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% for category in categories %}
+            <div class="col-md-3">
+                <a href="?category={{ category.id }}" class="text-decoration-none">
+                    <div class="card {% if selected_category == category.id|stringformat:'s' %}border-primary{% endif %} shadow-sm hover-lift">
+                        <div class="card-body text-center">
+                            <i class="bi bi-{{ category.icon|default:'heart' }} text-primary" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2 mb-0">{{ category.name }}</h6>
+                            <small class="text-muted">{{ category.affirmation_count }} affirmations</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Affirmations List -->
+        <div class="row">
+            {% for affirmation in affirmations_list %}
+            <div class="col-md-6 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-quote text-primary me-3" style="font-size: 2rem;"></i>
+                            <div>
+                                <p class="mb-2">{{ affirmation.text }}</p>
+                                {% if affirmation.category %}
+                                <span class="badge bg-primary">{{ affirmation.category.name }}</span>
+                                {% endif %}
+                                {% if affirmation.author %}
+                                <small class="text-muted d-block mt-2">- {{ affirmation.author }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i>
+                    No affirmations found in this category. Check back soon!
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- API Info -->
+<section class="py-4 bg-light">
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="mb-3">💙 About Our Affirmations</h5>
+                <p class="mb-2">
+                    <i class="bi bi-cloud-download"></i> 
+                    We use the <strong>Affirmations.dev API</strong> to provide you with fresh, inspiring affirmations daily.
+                </p>
+                <p class="mb-2">
+                    <i class="bi bi-database"></i> 
+                    Plus, we have a growing library of curated affirmations organized by your needs.
+                </p>
+                <p class="mb-0">
+                    <i class="bi bi-heart-fill text-danger"></i> 
+                    Each affirmation is chosen to support your mental health and spiritual wellness journey.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
