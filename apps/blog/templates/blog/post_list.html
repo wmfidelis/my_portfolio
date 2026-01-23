@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Blog - My Portfolio{% endblock %}
+{% block title %}Blog{% endblock %}
 
 {% block content %}
 <!-- Page Header -->
@@ -74,8 +74,8 @@
                             {% endif %}
                         </div>
                         
-                        <h2 class="card-title h4">
-                            <a href="{% url 'blog:post_detail' post.slug %}" class="text-decoration-none text-dark">
+                        <h2 class="card-title h4" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                            <a href="{% url 'blog:post_detail' post.slug %}" class="text-decoration-none text-white">
                                 {{ post.title }}
                             </a>
                         </h2>
@@ -101,7 +101,7 @@
                             {% endfor %}
                         </div>
                         
-                        <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-outline-primary">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-primary">
                             Read More <i class="bi bi-arrow-right"></i>
                         </a>
                     </div>
