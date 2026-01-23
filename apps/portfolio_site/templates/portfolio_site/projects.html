@@ -48,7 +48,7 @@
                         <div class="text-center mb-3">
                             <i class="bi bi-check2-square text-success" style="font-size: 4rem;"></i>
                         </div>
-                        <span class="badge bg-success mb-2 align-self-start">Task Management</span>
+                        <span class="badge bg-primary mb-2 align-self-start">Task Management</span>
                         <h5 class="card-title">Todo Application</h5>
                         <p class="card-text text-muted flex-grow-1">
                             Comprehensive task management system with priorities, due dates, status tracking, 
@@ -59,7 +59,7 @@
                             <span class="badge bg-secondary me-1">CRUD</span>
                             <span class="badge bg-secondary me-1">Auth</span>
                         </div>
-                        <a href="{% url 'todo:task_list' %}" class="btn btn-success">
+                        <a href="{% url 'todo:task_list' %}" class="btn btn-primary">
                             <i class="bi bi-box-arrow-up-right"></i> View Live
                         </a>
                     </div>
@@ -73,7 +73,7 @@
                         <div class="text-center mb-3">
                             <i class="bi bi-cloud-sun text-info" style="font-size: 4rem;"></i>
                         </div>
-                        <span class="badge bg-info mb-2 align-self-start">API Integration</span>
+                        <span class="badge bg-primary mb-2 align-self-start">API Integration</span>
                         <h5 class="card-title">Weather Forecast</h5>
                         <p class="card-text text-muted flex-grow-1">
                             Real-time weather application using OpenWeatherMap API. Displays current conditions 
@@ -84,12 +84,37 @@
                             <span class="badge bg-secondary me-1">API</span>
                             <span class="badge bg-secondary me-1">Redis</span>
                         </div>
-                        <a href="{% url 'weather:index' %}" class="btn btn-info">
+                        <a href="{% url 'weather:index' %}" class="btn btn-primary">
                             <i class="bi bi-box-arrow-up-right"></i> View Live
                         </a>
                     </div>
                 </div>
             </div>
+            <!-- Hope & Healing App -->
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm hover-lift border-success">
+                    <div class="card-body d-flex flex-column">
+                        <div class="text-center mb-3">
+                            <i class="bi bi-heart text-danger" style="font-size: 4rem;"></i>
+                        </div>
+                        <span class="badge bg-primary mb-2 align-self-start">Mental Wellness</span>
+                        <h5 class="card-title">Hope & Healing Journey</h5>
+                        <p class="card-text text-muted flex-grow-1">
+                            A holistic journey tracking daily affirmations, gratitude, meditation, and community support 
+                            to encourage personal growth and emotional well-being.
+                        </p>
+                        <div class="mb-3">
+                            <span class="badge bg-secondary me-1">Django</span>
+                            <span class="badge bg-secondary me-1">Bootstrap</span>
+                            <span class="badge bg-secondary me-1">Ajax</span>
+                        </div>
+                        <a href="{% url 'hope_healing:index' %}" class="btn btn-primary">
+                            <i class="bi bi-box-arrow-up-right"></i> View Live
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

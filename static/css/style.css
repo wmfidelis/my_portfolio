@@ -1,9 +1,9 @@
 /* Custom Styles for Portfolio */
 
 :root {
-    --primary-color: #2c5f4d;   /* forest green */
-    --secondary-color: #7bbf9e;
-    --dark-color: #1c3a33;
+    --primary-color: #065e3f;   /* forest green */
+    --secondary-color: #360b50;
+    --dark-color: #1d042c;
     --light-color: #f0f7f4;
 }
 
@@ -49,14 +49,16 @@ html {
 }
 
 .progress-bar {
-    background: linear-gradient(90deg, #2c5f4d, #7bbf9e);
+    background: linear-gradient(90deg, #03412b, #3a024b);
 }
 
 /* Hero Section */
 .bg-primary {
-    background: linear-gradient(135deg, #2c5f4d 0%, #7bbf9e 100%) !important;
+    background: linear-gradient(135deg, #520658 0%, #01351c 100%) !important;
 }
-
+.bg-success {
+    background: linear-gradient(135deg, #7d0c85 0%, #066d3b 100%) !important;
+}
 /* Buttons */
 .btn {
     transition: all 0.3s ease;
@@ -64,13 +66,19 @@ html {
 }
 
 .btn-primary {
+    background: linear-gradient(135deg, #520658 0%, #01351c 100%) !important;
     background-color: var(--primary-color) !important;  /* forest green */
     border-color: var(--primary-color) !important;
     color: #fff;
 }
-
+.btn-success {
+    background: linear-gradient(135deg, #520658 0%, #01351c 100%) !important;
+    background-color: var(--primary-color) !important;  /* forest green */
+    border-color: var(--primary-color) !important;
+    color: #fff;
+}
 .btn:hover {
-    background-color: #2c5f4d;
+    background-color: #290333;
     border-color: #1c3a33;
 }
 

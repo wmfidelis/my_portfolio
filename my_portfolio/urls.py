@@ -24,7 +24,9 @@ urlpatterns = [
     path('blog/', include('apps.blog.urls')),
     path('todo/', include('apps.todo.urls')),
     path('weather/', include('apps.weather.urls')),
-]
+    path('hope/', include('apps.hope_healing.urls')),
+    ]
+
 
 # Serve media files in development
 if settings.DEBUG:

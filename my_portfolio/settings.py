@@ -10,7 +10,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security settings
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-change-this-in-production')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='my-portfolio-v3uy.onrender.com').split(',')
+#ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='my-portfolio-v3uy.onrender.com').split(',')
+ALLOWED_HOSTS = [
+    "my-portfolio-v3uy.onrender.com",  # Your Render URL
+    "localhost",                       # Local testing
+    "127.0.0.1",                       # Local IP
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -30,6 +35,7 @@ INSTALLED_APPS = [
     'apps.todo',
     'apps.weather',
     'apps.portfolio_site',
+    'apps.hope_healing',
 ]
 
 MIDDLEWARE = [

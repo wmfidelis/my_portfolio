@@ -14,7 +14,7 @@
         height: 60px;
     }
     .weather-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #1ce777 0%, #3b0670 100%);
         color: white;
     }
     .city-card:hover {
@@ -46,7 +46,7 @@
             <div class="col-lg-8">
                 <div class="card shadow-sm">
                     <div class="card-body p-4">
-                        <h4 class="text-center mb-4">Search Weather by City</h4>
+                        <h4 class="text-center mb-4 text-white" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">Search Weather by City</h4>
                         <form method="get" action="{% url 'weather:index' %}">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-text">
@@ -209,7 +209,7 @@
 <!-- Popular Cities Section -->
 <section class="py-5 {% if not weather_data %}bg-light{% endif %}">
     <div class="container">
-        <h2 class="text-center mb-5">
+        <h2 class="text-center mb-5 text-white" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
             <i class="bi bi-globe"></i> Popular Cities
         </h2>
         <div class="row g-3">
@@ -221,7 +221,7 @@
                         <div class="card-body text-center">
                             <i class="bi bi-building text-primary" style="font-size: 2rem;"></i>
                             <h5 class="mt-2 mb-0">{{ popular_city }}</h5>
-                            <small class="text-muted">Click to view weather</small>
+                            <small class="text-white" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">Click to view weather</small>
                         </div>
                     </div>
                 </a>
@@ -239,8 +239,8 @@
             <div class="col-lg-8">
                 <div class="card shadow-sm">
                     <div class="card-body p-4">
-                        <h4 class="card-title mb-4">
-                            <i class="bi bi-info-circle"></i> How to Use
+                        <h4 class="card-title mb-4 text-white text-center" style="background: linear-gradient(135deg, #094126 0%, #470964 100%);">
+                            <i class="bi bi-info-circle text-white"></i> How to Use
                         </h4>
                         <ol>
                             <li class="mb-2">
