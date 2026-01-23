@@ -46,6 +46,12 @@
     </div>
 </section>
 
+<div class="mt-4 mb-4">
+    <a href="{% url 'hope_healing:index' %}" class="btn btn-primary">
+        <i class="bi "></i> Back to Main Menu
+    </a>
+</div>
+
 <!-- Stats Overview -->
 <section class="py-4 bg-light">
     <div class="container">
@@ -54,7 +60,6 @@
             <div class="col-md-4">
                 <div class="card stat-card shadow-sm text-center">
                     <div class="card-body">
-                        <i class="bi bi-check-circle-fill text-success" style="font-size: 2.5rem;"></i>
                         <h3 class="mt-2">{{ total_checkins }}</h3>
                         <p class="text-muted mb-0">Daily Check-ins</p>
                     </div>
@@ -64,17 +69,14 @@
             <div class="col-md-4">
                 <div class="card stat-card shadow-sm text-center">
                     <div class="card-body">
-                        <i class="bi bi-stopwatch-fill text-primary" style="font-size: 2.5rem;"></i>
                         <h3 class="mt-2">{{ total_meditation_time }}</h3>
                         <p class="text-muted mb-0">Meditation Sessions</p>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="card stat-card shadow-sm text-center">
                     <div class="card-body">
-                        <i class="bi bi-journal-heart-fill text-danger" style="font-size: 2.5rem;"></i>
                         <h3 class="mt-2">{{ total_gratitude_entries }}</h3>
                         <p class="text-muted mb-0">Gratitude Entries</p>
                     </div>
@@ -123,7 +125,7 @@
             <!-- Meditation History -->
             <div class="col-md-6">
                 <div class="card shadow-sm h-100">
-                    <div class="card-header bg-light">
+                    <div class="card-header bg-success text-white">
                         🧘 Recent Meditation Sessions
                     </div>
                     <div class="card-body">

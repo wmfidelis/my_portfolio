@@ -11,6 +11,12 @@
     </div>
 </section>
 
+<div class="mt-4 mb-4">
+    <a href="{% url 'hope_healing:index' %}" class="btn btn-primary">
+        <i class="bi "></i> Back to Main Menu
+    </a>
+</div>
+
 <!-- Daily Affirmation Highlight -->
 <section class="py-4">
     <div class="container">
@@ -31,7 +37,7 @@
 <!-- Categories -->
 <section class="py-4">
     <div class="container">
-        <h3 class="mb-4">Browse by Category</h3>
+        <h3 class="mb-4 btn-primary text-center">Browse by Category</h3>
         <div class="row g-3 mb-4">
             <div class="col-md-3">
                 <a href="{% url 'hope_healing:affirmations' %}" class="text-decoration-none">
@@ -95,8 +101,8 @@
 <section class="py-4 bg-light">
     <div class="container">
         <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="mb-3">💙 About Our Affirmations</h5>
+            <div class="card-body btn-primary">
+                <h5 class="mb-3 text-center">💙 About Our Affirmations</h5>
                 <p class="mb-2">
                     <i class="bi bi-cloud-download"></i> 
                     We use the <strong>Affirmations.dev API</strong> to provide you with fresh, inspiring affirmations daily.
