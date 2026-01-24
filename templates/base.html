@@ -51,13 +51,13 @@
                            href="{% url 'weather:index' %}">Weather</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" 
-                           href="{% url 'portfolio_site:contact' %}">Contact</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'hope_healing:index' %}">
                             Hope & Healing
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" 
+                           href="{% url 'portfolio_site:contact' %}">Contact</a>
                     </li>
                     
                     {% if user.is_authenticated %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
-from django.db.models import Count, Avg
+from django.db.models import Count, Avg, Sum
 from django.core.cache import cache
 from datetime import datetime, timedelta
 import requests
@@ -86,26 +86,34 @@ def index(request):
 @login_required
 def daily_checkin(request):
     """Daily mood and practice check-in"""
-    today = timezone.now().date()
+    today = timezone.localdate()
+
     checkin, created = DailyCheckIn.objects.get_or_create(
         user=request.user,
         date=today
     )
-    
+
     if request.method == 'POST':
         form = DailyCheckInForm(request.POST, instance=checkin)
         if form.is_valid():
             form.save()
-            messages.success(request, '✅ Check-in saved! Great job taking care of yourself today.')
-            return redirect('hope_healing:index')
+            messages.success(
+                request,
+                '🙏 Check-in saved — thank you for showing up for yourself'
+            )
+            return redirect('hope_healing:daily_checkin')
     else:
         form = DailyCheckInForm(instance=checkin)
-    
-    context = {
-        'form': form,
-        'checkin': checkin,
-    }
-    return render(request, 'hope_healing/daily_checkin.html', context)
+
+    return render(
+        request,
+        'hope_healing/daily_checkin.html',
+        {
+            'form': form,
+            'checkin': checkin,
+        }
+    )
+
 
 
 @login_required
@@ -142,10 +150,10 @@ def gratitude_journal(request):
     today = timezone.now().date()
 
     # Try to get today's entry safely
-    entry = GratitudeEntry.objects.filter(user=request.user, date=today).first()
-    if not entry:
-        # No entry today yet
-        entry = GratitudeEntry(user=request.user, date=today, entry='')
+    entry, created = GratitudeEntry.objects.get_or_create(
+    user=request.user,
+    date=today,
+)
 
     if request.method == 'POST':
         form = GratitudeEntryForm(request.POST, instance=entry)
@@ -157,7 +165,7 @@ def gratitude_journal(request):
         form = GratitudeEntryForm(instance=entry)
 
     # Show all entries
-    entries = GratitudeEntry.objects.filter(user=request.user).order_by('-date')
+    entries = GratitudeEntry.objects.filter(user=request.user).order_by('date')
 
     context = {
         'form': form,
@@ -171,28 +179,41 @@ def gratitude_journal(request):
 @login_required
 def meditation_timer(request):
     """Meditation/prayer timer and session logging"""
+    # Try to get today's session so user can edit notes if they already exist
+    today = timezone.now().date()
+    session, created = MeditationSession.objects.get_or_create(
+        user=request.user,
+        date=today,
+        defaults={'duration_minutes': 0, 'session_type': 'meditation'}  # adjust default as needed
+    )
+
     if request.method == 'POST':
-        form = MeditationSessionForm(request.POST)
+        form = MeditationSessionForm(request.POST, instance=session)
         if form.is_valid():
             session = form.save(commit=False)
             session.user = request.user
-            session.save()
-            messages.success(request, f'🧘 {session.get_session_type_display()} session logged!')
+            session.save()  # ✅ This saves notes too
+            messages.success(
+                request,
+                f'🧘 {session.get_session_type_display()} session logged with notes!'
+            )
             return redirect('hope_healing:meditation_timer')
     else:
-        form = MeditationSessionForm()
-    
-    recent_sessions = MeditationSession.objects.filter(user=request.user)[:10]
+        form = MeditationSessionForm(instance=session)
+
+    recent_sessions = MeditationSession.objects.filter(user=request.user).order_by('-date')[:10]
     total_minutes = MeditationSession.objects.filter(user=request.user).aggregate(
-        total=Count('duration_minutes')
+        total=Sum('duration_minutes')
     )['total'] or 0
-    
+
     context = {
         'form': form,
         'recent_sessions': recent_sessions,
         'total_minutes': total_minutes,
+        'session': session,  # optional if you want to pre-fill notes
     }
     return render(request, 'hope_healing/meditation_timer.html', context)
+
 
 
 @login_required
