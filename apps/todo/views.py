@@ -55,12 +55,16 @@ def task_list(request):
             )
         elif sort_by == 'title':
             tasks = tasks.order_by('title')
+    # AFTER filters + sorting logic
+    tasks = tasks.order_by('priority', 'status')
     
     # Get statistics
     total_tasks = Task.objects.filter(user=request.user).count()
     completed_tasks = Task.objects.filter(user=request.user, status='completed').count()
     pending_tasks = Task.objects.filter(user=request.user).exclude(status='completed').count()
     overdue_tasks = sum(1 for task in tasks if task.is_overdue)
+    tasks = tasks.order_by('priority', 'status')
+
     
     context = {
         'tasks': tasks,
